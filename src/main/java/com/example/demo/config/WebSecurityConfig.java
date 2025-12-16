@@ -16,14 +16,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/", "/home", "/css/**", "/js/**", "/h2-console").permitAll()
+                .requestMatchers("/**").permitAll() // Allow all requests for now
                 .anyRequest().authenticated()
             )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .permitAll()
-            )
-            .logout(logout -> logout.permitAll());
+            .csrf(csrf -> csrf.disable()); // Disable CSRF for stateless APIs
 
         return http.build();
     }
